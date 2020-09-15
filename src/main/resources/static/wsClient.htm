@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+</head>
+<body>
+    <script type='text/javascript'>
+
+        var ws = new WebSocket("ws://localhost:8080/ws");
+
+        var sc = Stomp.over(ws);
+
+        function onConnected() {
+            console.log("Connected successfully");
+            sc.subscribe("/stream/join", onMessage);
+        }
+
+        function onMessage(msg) {
+            console.log('OnJoinMessage', msg);
+        }
+        
+        function onError() {
+            console.log("Error occurred")
+        }
+
+        function joinGame(uname, teamNumber) {
+            sc.send("/cards/join", {}, `{"playerName":"Dv","teamNumber":1}`)
+        }
+
+
+//Use joinChat to join chant and then send() to send messages.
+        sc.connect({}, onConnected, onError)
+    </script> 
+</body>
+</html>
