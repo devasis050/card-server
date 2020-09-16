@@ -51,4 +51,9 @@ public class PlayerController {
 		return playerService.removeCard(player.getName(), card);
 	}
 	
+	@PostMapping("player/clear")
+	public String clearPlayer() {
+		store.clearPlayer();
+		return "Success";
+	}
 }

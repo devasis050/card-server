@@ -40,5 +40,8 @@ public class GameStore {
 			entry.getValue().getId().equals(id)).findFirst().orElseThrow(()->new RuntimeException("Player not found")).getValue();
 	}
 	
+	public void clearPlayer() {
+		players = new HashMap<>(4);
+	}
 
 }
