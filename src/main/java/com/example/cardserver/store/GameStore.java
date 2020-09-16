@@ -34,6 +34,11 @@ public class GameStore {
 	public Player getPlayer(String playerName) {
 		return players.get(playerName);
 	}
+
+	public Player getPlayerById(String id) {
+		return players.entrySet().stream().filter(entry->
+			entry.getValue().getId().equals(id)).findFirst().orElseThrow(()->new RuntimeException("Player not found")).getValue();
+	}
 	
 
 }

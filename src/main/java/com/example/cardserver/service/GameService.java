@@ -35,20 +35,22 @@ public class GameService {
 	public Game join(String playerName, int teamNumber) {
 
 		Game game = store.getGame();
-		Team team = teamNumber == 1 ? game.getTeam1() : game.getTeam2();
-
-		if (team.getPlayer1() == null) {
-			team.setPlayer1(playerName);
-		} else if (team.getPlayer2() == null) {
-			team.setPlayer2(playerName);
+		if(!game.getPlayers().contains(playerName)) {
+			Team team = teamNumber == 1 ? game.getTeam1() : game.getTeam2();
+			
+			if (team.getPlayer1() == null) {
+				team.setPlayer1(playerName);
+			} else if (team.getPlayer2() == null) {
+				team.setPlayer2(playerName);
+			}
 		}
+		
 
 		return game;
 	}
 
 	public synchronized Game startGame(String playerName) {
 		Game game = store.getGame();
-
 		if (game.getGameStartedBy() == null) {
 			game.setGameStartedBy(playerName);
 			distributeCards();
@@ -62,18 +64,21 @@ public class GameService {
 	
 	public synchronized Game finishGame() {
 		Game game = store.getGame();
-		
-		Team team1 = game.getTeam1();
-		Team team2 = game.getTeam2();
-		
-		//Reset
-		resetTeam(team1);
-		resetTeam(team2);
-		resetGame(game);
-		store.getPlayer(team1.getPlayer1()).setCall(-1);
-		store.getPlayer(team1.getPlayer2()).setCall(-1);
-		store.getPlayer(team2.getPlayer1()).setCall(-1);
-		store.getPlayer(team2.getPlayer2()).setCall(-1);
+		if(game.getRound().getNumber() == 14) {
+			Team team1 = game.getTeam1();
+			Team team2 = game.getTeam2();
+			
+			//Reset
+			resetTeam(team1);
+			resetTeam(team2);
+			resetGame(game);
+			store.getPlayer(team1.getPlayer1()).setCall(-1);
+			store.getPlayer(team1.getPlayer2()).setCall(-1);
+			store.getPlayer(team2.getPlayer1()).setCall(-1);
+			store.getPlayer(team2.getPlayer2()).setCall(-1);
+		} else {
+			throw new UnsupportedOperationException("Game not over yet");
+		}
 		
 		return game;
 	}
@@ -168,7 +173,7 @@ public class GameService {
 		
 		new Thread(() -> {
 			try {
-				Thread.sleep(3000);
+				Thread.sleep(5000);
 				game.setRound(nextRound);
 				if(nextRound.getNumber() == 14) {
 					game.getTeam1Score().add(calculateTeamFinalScore(team1));

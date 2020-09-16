@@ -2,6 +2,7 @@ package com.example.cardserver.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Game implements Serializable {
@@ -51,6 +52,9 @@ public class Game implements Serializable {
 		this.team2Score = team2Score;
 	}
 	
+	public List<String> getPlayers() {
+		return Arrays.asList(team1.getPlayer1(), team2.getPlayer1(), team1.getPlayer2(), team2.getPlayer2());
+	}
 	
 	
 }

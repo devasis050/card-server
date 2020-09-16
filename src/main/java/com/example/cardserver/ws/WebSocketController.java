@@ -21,7 +21,7 @@ public class WebSocketController {
 	private GameService service;
 	
 	@MessageMapping("/join")
-	@SendTo("/stream/join")
+	@SendTo("/game/playerJoined")
 	public Game join(@Payload JoinRequest request) {
 		return service.join(request.getPlayerName(), request.getTeamNumber());
 	}
@@ -50,9 +50,4 @@ public class WebSocketController {
 		return service.submitMove(move);
 	}
 	
-	@MessageMapping("/finishGame")
-	@SendTo("/game/nextRound")
-	public Game finishGame() {
-		return service.finishGame();
-	}
 }
