@@ -9,14 +9,14 @@ import org.junit.jupiter.api.Test;
 
 import com.example.cardserver.model.Card;
 import com.example.cardserver.model.Round;
+import com.example.cardserver.store.GameStore;
 
 public class GameServiceTest {
 	
-	GameService target = new GameService();
+	GameService target = new GameService(new GameStore());
 	
 	
 	public void setUp() {
-		
 	}
 	
 	@Test
@@ -105,6 +105,24 @@ public class GameServiceTest {
 		Round round = getRound();
 		round.getMoves().put("p2", Card.JOKER);
 		round.setNumber(13);
+		String winnner = target.calculateWinner(round);
+		assertEquals("p2", winnner);
+	}
+	
+	@Test
+	public void calculateWinner_jokerIsRanga() {
+		Round round = getRound();
+		round.setRanga(Card.JOKER);
+		round.getMoves().put("p2", new Card(Card.Type.S, 7));
+		String winnner = target.calculateWinner(round);
+		assertEquals("p4", winnner);
+	}
+	
+	@Test
+	public void calculateWinner_jokerIsRangaJokerRound() {
+		Round round = getRound();
+		round.setRanga(Card.JOKER);
+		round.getMoves().put("p2", Card.JOKER);
 		String winnner = target.calculateWinner(round);
 		assertEquals("p2", winnner);
 	}

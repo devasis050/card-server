@@ -19,7 +19,7 @@ public class GameStore {
 		return game;
 	}
 	
-	public void resetGame() {
+	public void hardResetGame() {
 		game = new Game();
 	}
 	

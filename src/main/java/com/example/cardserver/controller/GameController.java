@@ -29,7 +29,7 @@ public class GameController {
 	
 	@PostMapping("/game/reset")
 	public String resetGame() {
-		store.resetGame();
+		store.hardResetGame();
 		return "Success";
 	}
 	
@@ -38,5 +38,11 @@ public class GameController {
 		return gameService.finishGame();
 	}
 	
+	@PostMapping("/game/resetMatch")
+	public String resetMatch() {
+		gameService.resetMatch();
+		return "Success";
+		
+	}
 
 }
