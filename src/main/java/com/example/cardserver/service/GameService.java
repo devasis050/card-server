@@ -108,8 +108,10 @@ public class GameService {
 
 	private void resetPlayerCards(String playerName) {
 		Player player = store.getPlayer(playerName);
-		player.getCards().clear();
-		player.setCall(-1);
+		if(player != null) {
+			player.getCards().clear();
+			player.setCall(-1);
+		}
 	}
 	
 	private void resetTeam(Team team) {
